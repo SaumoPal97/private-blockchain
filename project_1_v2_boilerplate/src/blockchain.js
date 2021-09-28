@@ -138,7 +138,13 @@ class Blockchain {
             };
             let block = new BlockClass.Block(data);
             await self._addBlock(block);
-            resolve(block);
+            let errorLog = [];
+            errorLog = await self.validateChain();
+            if (errorLog.length > 0) {
+              reject("Errors found");
+            } else {
+              resolve(block);
+            }
           } else {
             reject("Verification failed");
           }
